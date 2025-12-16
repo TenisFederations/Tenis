@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Новости - Курская федерация настольного тенниса{% endblock %}
+
+{% block content %}
+<h2 class="section-title">Новости</h2>
+
+<div class="row g-4">
+    {% for news in news_list %}
+    <div class="col-md-4">
+        <div class="card-section h-100">
+            {% if news.image %}
+            <img src="{{ news.image.url }}" class="img-fluid rounded mb-3" alt="{{ news.title }}">
+            {% endif %}
+            <h5>{{ news.title }}</h5>
+            <p class="text-muted">{{ news.created_at|date:"d M Y" }}</p>
+            <p>{{ news.content|truncatewords:20 }}</p>
+            <a href="{{ news.get_absolute_url }}" class="btn btn-accent mt-2">Подробнее</a>
+        </div>
+    </div>
+    {% empty %}
+    <p>Новостей пока нет.</p>
+    {% endfor %}
+</div>
+
+<!-- Пагинация -->
+<div class="mt-4">
+    {% if is_paginated %}
+        <nav>
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Назад</a>
+                    </li>
+                {% endif %}
+                {% for num in paginator.page_range %}
+                    <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                    </li>
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Вперед</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Курская федерация настольного тенниса{% endblock %}</title>
+    
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    
+    <style>
+        :root {
+            --main-bg: #343A40;      /* хедер и футер */
+            --accent-color: #20C997; /* кнопки и ссылки */
+            --accent-hover: #17a589;
+            --text-color: #212529;   /* основной текст */
+            --card-bg: #FFFFFF;      /* карточки и секции */
+            --body-bg: #F8F9FA;      /* основной фон страницы */
+        }
+
+        body {
+            background-color: var(--body-bg);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        header {
+            background-color: var(--main-bg);
+        }
+
+        footer {
+            background-color: var(--main-bg);
+            color: #FFFFFF;
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        a:hover {
+            color: var(--accent-hover);
+        }
+
+        .btn-accent {
+            background-color: var(--accent-color);
+            color: #fff;
+            border-radius: 0.375rem;
+            transition: background-color 0.3s;
+        }
+        .btn-accent:hover {
+            background-color: var(--accent-hover);
+            color: #fff;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: none;
+            border-radius: 0.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .navbar-nav .nav-link {
+            margin-left: 1rem;
+        }
+
+        .section-title {
+            border-bottom: 2px solid var(--accent-color);
+            display: inline-block;
+            padding-bottom: 0.25rem;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+        .card-section {
+    border-radius: 0.75rem;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    background: linear-gradient(135deg, #20C99720, #20C99705); /* лёгкий градиент с бирюзой */
+    border-left: 4px solid var(--accent-color); /* визуальный акцент */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.card-section:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+}
+
+.card-section h5 {
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+.card-section p {
+    color: #495057;
+}
+
+.card-section i {
+    font-size: 2rem;
+    color: var(--accent-color);
+    margin-bottom: 0.75rem;
+    display: block;
+}
+    </style>
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+    <!-- Header / Навигация -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark container py-3">
+            <a class="navbar-brand fw-bold" href="{% url 'core:home' %}">КФНТ</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'core:home' %}">Главная</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Структура</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Документы</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Сборные</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Проекты</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'news:news_list' %}">Новости</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Календарь</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Медиа</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">О федерации</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Основной контент -->
+    <main class="container my-5 flex-grow-1">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-3 mt-auto">
+        <div class="container">
+            © 2025 Курская федерация настольного тенниса
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

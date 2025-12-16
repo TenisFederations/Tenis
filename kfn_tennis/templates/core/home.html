@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Главная - Курская федерация настольного тенниса{% endblock %}
+
+{% block content %}
+<!-- Hero-блок -->
+<section class="text-center py-5">
+    <h1 class="mb-3 fw-bold">Добро пожаловать на официальный сайт Курской федерации настольного тенниса!</h1>
+    <p class="lead">Здесь вы можете ознакомиться с новостями о турнирах, спортсменах и проектах федерации.</p>
+</section>
+<!-- Последние новости -->
+<section class="mt-5">
+    <h2 class="section-title">Последние новости</h2>
+    <div class="row g-4">
+        {% for news in latest_news %}
+        <div class="col-md-3">
+            <div class="card-section h-100">
+                {% if news.image %}
+                <img src="{{ news.image.url }}" class="img-fluid rounded mb-3" alt="{{ news.title }}">
+                {% endif %}
+                <h6 class="fw-semibold">{{ news.title|truncatewords:8 }}</h6>
+                <p class="text-muted small">{{ news.created_at|date:"d M Y" }}</p>
+                <a href="{{ news.get_absolute_url }}" class="btn btn-outline-accent btn-sm mt-2">Подробнее</a>
+            </div>
+        </div>
+        {% empty %}
+        <p>Новостей пока нет.</p>
+        {% endfor %}
+    </div>
+</section>
+<!-- Основные разделы -->
+<section class="mt-5">
+    <h2 class="section-title">Разделы</h2>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card-section h-100">
+                <i class="bi bi-newspaper"></i>
+                <h5>Новости</h5>
+                <p>Читайте свежие новости о турнирах, спортсменах и проектах федерации.</p>
+                <a href="{% url 'news:news_list' %}" class="btn btn-accent mt-2">Перейти</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card-section h-100">
+                <i class="bi bi-file-earmark-text"></i>
+                <h5>Документы</h5>
+                <p>Скачивайте официальные документы, положения и регламенты.</p>
+                <a href="#" class="btn btn-accent mt-2">Перейти</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card-section h-100">
+                <i class="bi bi-calendar-event"></i>
+                <h5>Календарь</h5>
+                <p>Следите за турнирами, соревнованиями и событиями федерации.</p>
+                <a href="#" class="btn btn-accent mt-2">Перейти</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
