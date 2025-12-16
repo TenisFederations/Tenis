@@ -8,6 +8,7 @@ urlpatterns = [
     path('', include('core.urls')),  # подключаем core
     path('news/', include('news.urls')),
     path('structure/', include('structure.urls')),
+    path('documents/', include('documents.urls')),
 
 ]
 

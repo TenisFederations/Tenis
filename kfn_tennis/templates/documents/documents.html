@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<nav class="mb-4">
+  <a href="{% url 'documents:categories' %}" class="text-muted">
+    ← Все категории
+  </a>
+</nav>
+
+<section class="mb-4">
+  <h2 class="section-title">{{ category.name }}</h2>
+</section>
+
+<!-- Поиск -->
+<form method="get" class="mb-4 col-md-6 position-relative" id="search-form">
+  <input type="text"
+         name="q"
+         id="search-docs"
+         class="form-control ps-5"
+         placeholder="Поиск по документам"
+         autocomplete="off">
+  <span class="position-absolute top-50 start-0 translate-middle-y ps-3 text-muted search-icon">
+    <i class="bi bi-search"></i>
+  </span>
+  <button type="button" class="btn btn-outline-secondary position-absolute top-50 end-0 translate-middle-y me-2 clear-btn">
+    <i class="bi bi-x-lg"></i>
+  </button>
+</form>
+
+<!-- Документы -->
+<section class="container my-5">
+  <h2 class="mb-4">Документы категории: {{ category.name }}</h2>
+  <div class="row g-4">
+    {% for doc in documents %}
+    <div class="col-md-6 col-lg-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body d-flex flex-column">
+          <div class="d-flex align-items-center mb-3">
+            <i class="bi bi-file-earmark-text fs-2 text-primary me-3"></i>
+            <h5 class="card-title mb-0">{{ doc.title }}</h5>
+          </div>
+          <p class="card-text text-muted mb-2">
+            {{ doc.created_at|date:"d.m.Y" }} · {{ doc.file.size|filesizeformat }}
+          </p>
+          
+          <a href="{{ doc.file.url }}" class="btn btn-outline-primary mt-auto" download>
+            Скачать
+          </a>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <p class="text-muted">Документы отсутствуют.</p>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Пагинация -->
+{% if documents.has_other_pages %}
+<nav class="mt-4">
+  <ul class="pagination">
+    {% for p in documents.paginator.page_range %}
+      <li class="page-item {% if documents.number == p %}active{% endif %}">
+        <a class="page-link" href="?page={{ p }}">{{ p }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+</nav>
+{% endif %}
+
+<style>
+  .search-icon,
+  .clear-btn {
+    transition: opacity 0.3s ease;
+  }
+  .hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+</style>
+<script>
+  const searchInput = document.getElementById('search-docs');
+  const searchForm = document.getElementById('search-form');
+  const searchIcon = document.querySelector('.search-icon');
+  const clearBtn = document.querySelector('.clear-btn');
+
+  let debounceTimeout;
+
+  function toggleIcons() {
+    if (searchInput.value.trim().length > 0) {
+      searchIcon.classList.add('hidden');
+      clearBtn.classList.remove('hidden');
+    } else {
+      searchIcon.classList.remove('hidden');
+      clearBtn.classList.add('hidden');
+    }
+  }
+
+  searchInput.addEventListener('input', function() {
+    toggleIcons();
+    clearTimeout(debounceTimeout);
+    debounceTimeout = setTimeout(() => {
+      searchForm.submit();
+    }, 500);
+  });
+
+  clearBtn.addEventListener('click', function() {
+    searchInput.value = '';
+    toggleIcons();
+    searchForm.submit();
+  });
+
+  
+</script>
+{% endblock %}

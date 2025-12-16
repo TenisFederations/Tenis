@@ -1,0 +1,58 @@
+.document-row {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.document-row:last-child {
+    border-bottom: none;
+}
+
+.document-row h6 {
+    font-size: 1rem;
+}
+
+.document-meta {
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+.card-section {
+    border-radius: 0.75rem;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    background: #fff;
+    border: 1px solid #e9ecef;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card-section:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.card-section i {
+    font-size: 2rem;
+    color: var(--accent-color);
+    margin-bottom: 0.75rem;
+}
+
+.card-section h5 {
+    font-weight: 600;
+    color: #212529;
+}
+
+.section-title {
+    font-size: 2rem;
+    font-weight: 600;
+    border-bottom: 3px solid var(--accent-color);
+    display: inline-block;
+    padding-bottom: 0.25rem;
+}
+form input:focus + label,
+form input:not(:placeholder-shown) + label {
+  display: none;
+}
+
+form label i {
+  margin-right: 0.3rem;
+}
