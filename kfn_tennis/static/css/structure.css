@@ -1,0 +1,168 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+.breadcrumbs {
+    margin: 15px 0;
+    font-size: 0.9rem;
+}
+.breadcrumbs a {
+    text-decoration: none;
+    color: #555;
+    transition: color 0.2s;
+}
+.breadcrumbs a:hover {
+    color: #007BFF;
+}
+.breadcrumbs a::after {
+    content: " /";
+    margin-left: 5px;
+}
+.breadcrumbs a:last-child::after {
+    content: "";
+}
+
+.subdivision-header {
+    margin-bottom: 30px;
+    text-align: center;
+}
+.subdivision-header h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #222;
+}
+.subdivision-header p {
+    font-size: 1rem;
+    color: #555;
+}
+
+.members-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+}
+
+.member-card {
+    background: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 15px;
+}
+.member-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.photo-wrapper {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.photo-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.no-photo {
+    font-size: 0.8rem;
+    color: #888;
+}
+
+.member-info h3 {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+    color: #222;
+}
+.member-info .role {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #20C997;
+    margin-bottom: 10px;
+}
+.member-info .contact {
+    font-size: 0.85rem;
+    color: #555;
+    margin-bottom: 5px;
+}
+.member-info .bio {
+    font-size: 0.85rem;
+    color: #555;
+    margin-bottom: 5px;
+}
+.member-info .period {
+    font-size: 0.8rem;
+    color: #888;
+}
+.structure-title {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 10px;
+    color: #222;
+}
+
+.structure-description {
+    text-align: center;
+    color: #555;
+    font-size: 1rem;
+    margin-bottom: 30px;
+}
+
+.subdivisions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.subdivision-card {
+    background: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.subdivision-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.subdivision-card a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    height: 100%;
+}
+
+.card-content {
+    padding: 20px;
+    text-align: center;
+}
+
+.card-content h3 {
+    font-size: 1.3rem;
+    color: #20C997;
+    margin-bottom: 10px;
+}
+
+.card-content p {
+    font-size: 0.9rem;
+    color: #555;
+}
+

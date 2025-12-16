@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/structure.css' %}">
+<h1 class="structure-title">Структура федерации</h1>
+<p class="structure-description">Выберите подразделение, чтобы просмотреть состав и подробную информацию.</p>
+
+<section class="subdivisions-grid">
+    {% for subdivision in subdivisions %}
+    <div class="subdivision-card">
+        <a href="{% url 'structure:subdivision_detail' subdivision.id %}">
+            <div class="card-content">
+                <h3>{{ subdivision.get_title_display }}</h3>
+                {% if subdivision.description %}
+                <p>{{ subdivision.description|truncatechars:80 }}</p>
+                {% endif %}
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</section>
+
+<link rel="stylesheet" href="{% static 'structure/css/structure.css' %}">
+{% endblock %}
