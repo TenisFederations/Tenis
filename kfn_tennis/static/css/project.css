@@ -1,0 +1,17 @@
+.project-card img {
+    transition: transform 0.3s ease;
+}
+
+.project-card:hover img {
+    transform: scale(1.05);
+}
+
+.project-content table {
+    width: 100%;
+}
+
+.project-content table td,
+.project-content table th {
+    padding: 8px;
+    border: 1px solid #dee2e6;
+}

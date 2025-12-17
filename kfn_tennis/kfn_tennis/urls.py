@@ -9,6 +9,8 @@ urlpatterns = [
     path('news/', include('news.urls')),
     path('structure/', include('structure.urls')),
     path('documents/', include('documents.urls')),
+    path('projects/', include('projects.urls')),
+    path('ckeditor5/', include('django_ckeditor_5.urls')),
 
 ]
 

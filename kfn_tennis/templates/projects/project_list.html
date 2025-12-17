@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Проекты{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+    <!-- Заголовок -->
+    <div class="mb-5 text-center">
+        <h1 class="fw-bold">Проекты</h1>
+        <p class="text-muted mt-2">
+            Реализуемые и завершённые проекты, программы и инициативы
+        </p>
+    </div>
+
+    {% if projects %}
+        <div class="row g-4">
+            {% for project in projects %}
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100 border-0 shadow-sm project-card">
+
+                        <!-- Изображение -->
+                        <div class="ratio ratio-16x9">
+                            <img src="{{ project.main_image.url }}"
+                                 class="card-img-top object-fit-cover"
+                                 alt="{{ project.title }}">
+                        </div>
+
+                        <div class="card-body d-flex flex-column">
+
+                            <!-- Категория -->
+                            <div class="mb-2">
+                                <span class="badge bg-light text-dark border">
+                                    {{ project.category.title }}
+                                </span>
+                            </div>
+
+                            <!-- Название -->
+                            <h5 class="card-title fw-semibold">
+                                {{ project.title }}
+                            </h5>
+
+                            <!-- Даты -->
+                            {% if project.start_date %}
+                                <div class="text-muted small mb-2">
+                                    {% if project.end_date %}
+                                        {{ project.start_date|date:"d.m.Y" }} —
+                                        {{ project.end_date|date:"d.m.Y" }}
+                                    {% else %}
+                                        с {{ project.start_date|date:"d.m.Y" }}
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+
+                            <!-- Краткое описание -->
+                            <p class="card-text text-muted small mb-4">
+                                {{ project.short_description|truncatechars:120 }}
+                            </p>
+
+                            <!-- Кнопка -->
+                            <div class="mt-auto">
+                                <a href="{{ project.get_absolute_url }}"
+                                   class="btn btn-outline-dark w-100">
+                                    Подробнее
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="text-center text-muted">
+            Проекты пока не добавлены
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}
