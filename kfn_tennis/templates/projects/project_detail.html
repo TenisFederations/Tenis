@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block title %}{{ project.title }}{% endblock %}
+{% block body_class %}project-page{% endblock %}
 
 {% block content %}
 <div class="container py-5">
@@ -9,33 +10,28 @@
     <!-- Хлебные крошки -->
     <nav aria-label="breadcrumb" class="mb-4">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="/">Главная</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a href="{% url 'projects:list' %}">Проекты</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">
-                {{ project.title }}
-            </li>
+            <li class="breadcrumb-item"><a href="/">Главная</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'projects:list' %}">Проекты</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ project.title }}</li>
         </ol>
     </nav>
-
+    <!-- Кнопка назад -->
+<div class="mb-3">
+    <a href="{% url 'projects:list' %}" class="btn btn-project btn-back">
+        ← Назад к проектам
+    </a>
+</div>
     <!-- Заголовок -->
-    <div class="mb-4">
+    <div class="mb-4 project-header">
         <h1 class="fw-bold">{{ project.title }}</h1>
-        <div class="text-muted">
-            {{ project.category.title }}
-        </div>
+        <span class="category-badge">{{ project.category.title }}</span>
     </div>
 
     <!-- Главное изображение -->
     {% if project.main_image %}
-        <div class="mb-5">
-            <img src="{{ project.main_image.url }}"
-                 class="img-fluid rounded shadow-sm w-100"
-                 alt="{{ project.title }}">
-        </div>
+    <div class="project-main-image mb-5">
+        <img src="{{ project.main_image.url }}" class="img-fluid w-100" alt="{{ project.title }}">
+    </div>
     {% endif %}
 
     <div class="row g-5">
@@ -50,79 +46,109 @@
 
             <!-- Кнопки -->
             <div class="d-flex flex-wrap gap-3 mt-5">
-
                 {% if project.attachment %}
-                    <a href="{{ project.attachment.url }}"
-                       class="btn btn-dark"
-                       target="_blank">
-                        📄 Положение соревнований
-                    </a>
+                <a href="{{ project.attachment.url }}" class="btn btn-project" target="_blank">
+                    📄 Положение соревнований
+                </a>
                 {% endif %}
-
                 {% if project.external_link %}
-                    <a href="{{ project.external_link }}"
-                       class="btn btn-outline-dark"
-                       target="_blank">
-                        🏆 Результаты
-                    </a>
+                <a href="{{ project.external_link }}" class="btn btn-project" target="_blank">
+                    🏆 Результаты
+                </a>
                 {% endif %}
-
                 {% if project.gallery_link %}
-                    <a href="{{ project.gallery_link }}"
-                       class="btn btn-outline-dark"
-                       target="_blank">
-                        📸 Фотогалерея
-                    </a>
+                <a href="{{ project.gallery_link }}" class="btn btn-project" target="_blank">
+                    📸 Фотогалерея
+                </a>
                 {% endif %}
-
             </div>
 
         </div>
 
         <!-- Боковая информация -->
         <div class="col-lg-4">
-
-            <div class="p-4 bg-light rounded shadow-sm">
-
+            <div class="project-sidebar p-4 rounded shadow-sm">
                 <h5 class="fw-semibold mb-3">Информация о проекте</h5>
 
                 {% if project.start_date %}
-                    <div class="mb-2">
-                        <strong>Даты:</strong><br>
-                        {% if project.end_date %}
-                            {{ project.start_date|date:"d.m.Y" }} —
-                            {{ project.end_date|date:"d.m.Y" }}
-                        {% else %}
-                            с {{ project.start_date|date:"d.m.Y" }}
-                        {% endif %}
-                    </div>
+                <div class="mb-2">
+                    <strong>Даты:</strong><br>
+                    {% if project.end_date %}
+                        {{ project.start_date|date:"d.m.Y" }} — {{ project.end_date|date:"d.m.Y" }}
+                    {% else %}
+                        с {{ project.start_date|date:"d.m.Y" }}
+                    {% endif %}
+                </div>
                 {% endif %}
 
                 {% if project.location %}
-                    <div class="mb-2">
-                        <strong>Место проведения:</strong><br>
-                        {{ project.location }}
-                    </div>
+                <div class="mb-2">
+                    <strong>Место проведения:</strong><br>{{ project.location }}
+                </div>
                 {% endif %}
 
                 {% if project.prize_fund %}
-                    <div class="mb-2">
-                        <strong>Призовой фонд:</strong><br>
-                        {{ project.prize_fund }}
-                    </div>
+                <div class="mb-2">
+                    <strong>Призовой фонд:</strong><br>{{ project.prize_fund }}
+                </div>
                 {% endif %}
 
                 {% if project.contacts %}
-                    <div class="mb-2">
-                        <strong>Контакты:</strong><br>
-                        {{ project.contacts|linebreaks }}
-                    </div>
+                <div class="mb-2">
+                    <strong>Контакты:</strong><br>{{ project.contacts|linebreaks }}
+                </div>
                 {% endif %}
-
             </div>
-
         </div>
+
     </div>
 
+    <!-- Похожие проекты -->
+    {% if related_projects %}
+    <div class="related-projects mt-5">
+        <h3 class="fw-bold mb-4">Похожие проекты</h3>
+        <div class="row g-4">
+            {% for rp in related_projects %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 project-card">
+
+                    <!-- Изображение -->
+                    <div class="ratio ratio-16x9 project-main-image">
+                        <img src="{{ rp.main_image.url }}" class="card-img-top object-fit-cover" alt="{{ rp.title }}">
+                    </div>
+
+                    <div class="card-body d-flex flex-column">
+                        <!-- Категория -->
+                        <div class="mb-2">
+                            <span class="badge">{{ rp.category.title }}</span>
+                        </div>
+
+                        <!-- Название -->
+                        <h5 class="card-title fw-semibold">{{ rp.title }}</h5>
+
+                        <!-- Краткое описание -->
+                        <p class="card-text text-muted small mb-4">
+                            {{ rp.short_description|truncatechars:100 }}
+                        </p>
+
+                        <!-- Кнопка -->
+                        <div class="mt-auto">
+                            <a href="{{ rp.get_absolute_url }}" class="btn btn-project w-100">
+                                Подробнее
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
 </div>
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/project.css' %}">
+{% endblock %}
+
 {% endblock %}

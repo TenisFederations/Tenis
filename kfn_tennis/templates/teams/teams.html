@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Сборные - Курская федерация настольного тенниса{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/teams.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="section-header text-center mb-4">
+    <h1>Сборные Курской федерации</h1>
+    <p>Выберите сезон и найдите игрока по имени.</p>
+</section>
+
+<!-- Фильтр + поиск -->
+<div class="col-md-6 mx-auto mb-5">
+  <!-- Отдельный блок для селекта -->
+  <select name="season" id="season-select" class="form-select mb-3">
+      <option value="">Все сезоны</option>
+      {% for season in seasons %}
+      <option value="{{ season.id }}">{{ season.year }}</option>
+      {% endfor %}
+  </select>
+
+  <!-- Блок для поиска + кнопки -->
+  <div class="search-wrapper position-relative">
+      <input type="text"
+             id="search-players"
+             class="form-control ps-5"
+             placeholder="Поиск по имени игрока"
+             autocomplete="off">
+
+      <!-- Иконка поиска -->
+      <span class="search-icon">
+        <i class="bi bi-search"></i>
+      </span>
+
+      <!-- Кнопка сброса -->
+      <button type="button" class="clear-btn">
+        <i class="bi bi-x-lg"></i>
+      </button>
+  </div>
+</div>
+
+<section class="container-xl my-5">
+    <div class="row g-4 justify-content-center" id="playersContainer">
+        {% for player in players %}
+        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 player-card"
+             data-name="{{ player.full_name|lower }}"
+             data-season="{{ player.season.id }}">
+            <div class="document-card h-100 text-center">
+                {% if player.photo %}
+                <img src="{{ player.photo.url }}" alt="{{ player.full_name }}" class="card-img-top">
+                {% else %}
+                <div class="player-placeholder">
+                    <span class="placeholder-initials">{{ player.full_name|slice:":1" }}</span>
+                </div>
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ player.full_name }}</h5>
+                    <p class="card-text">
+                        Дата рождения: {{ player.birth_date|date:"d.m.Y" }}<br>
+                        Разряд: {{ player.rank }}<br>
+                        Организация: {{ player.organization }}
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <p id="no-results" class="text-muted text-center mt-4" style="display: none;">Игроки не найдены.</p>
+</section>
+
+<style>
+.search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center; /* Центрируем по вертикали */
+}
+
+#search-players {
+    width: 100%;
+    border-radius: 50px;
+    padding: 0.5rem 1rem 0.5rem 2.5rem;
+    height: 48px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* Иконка поиска */
+.search-icon {
+    position: absolute;
+    left: 1rem;
+    color: var(--accent-color);
+    pointer-events: none;
+    font-size: 1.2rem;
+}
+
+/* Кнопка сброса */
+.clear-btn {
+    position: absolute;
+    right: 0.5rem;
+    border: none;
+    background-color: #dee2e6;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+    z-index: 10;
+}
+
+.clear-btn.show {
+    opacity: 1;
+}
+
+.clear-btn i {
+    pointer-events: none;
+    font-size: 1rem;
+}
+
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('search-players');
+    const seasonSelect = document.getElementById('season-select');
+    const clearBtn = document.querySelector('.clear-btn');
+    const searchIcon = document.querySelector('.search-icon');
+    const playerCards = document.querySelectorAll('.player-card');
+    const noResults = document.getElementById('no-results');
+
+    function toggleIcons() {
+        if (searchInput.value.trim() || seasonSelect.value) {
+            clearBtn.classList.add('show');
+            searchIcon.style.display = 'none';
+        } else {
+            clearBtn.classList.remove('show');
+            searchIcon.style.display = 'block';
+        }
+    }
+
+    function filterPlayers() {
+        const query = searchInput.value.toLowerCase().trim();
+        const season = seasonSelect.value;
+        let visibleCount = 0;
+
+        playerCards.forEach(card => {
+            const matchesName = !query || card.dataset.name.includes(query);
+            const matchesSeason = !season || card.dataset.season === season;
+
+            if (matchesName && matchesSeason) {
+                card.style.display = 'block';
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+
+    // Инициализация
+    toggleIcons();
+    filterPlayers();
+
+    // Обработчики
+    searchInput.addEventListener('input', function() {
+        toggleIcons();
+        filterPlayers();
+    });
+
+    seasonSelect.addEventListener('change', function() {
+        toggleIcons();
+        filterPlayers();
+    });
+
+    clearBtn.addEventListener('click', function() {
+        searchInput.value = '';
+        seasonSelect.value = '';
+        toggleIcons();
+        filterPlayers();
+        searchInput.focus();
+    });
+});
+</script>
+
+{% endblock %}

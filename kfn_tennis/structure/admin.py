@@ -21,3 +21,5 @@ class PersonAdmin(admin.ModelAdmin):
     list_filter = ('subdivisions', 'is_active')
     search_fields = ('full_name', 'email')
     ordering = ('sort_order',)
+
+

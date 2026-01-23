@@ -13,8 +13,8 @@ class Subdivision(models.Model):
         ('judges_committee', 'Судейская дисциплинарная комиссия'),
     ]
     
-    title = models.CharField(max_length=50, choices=SUBDIVISION_CHOICES, unique=True)
-    description = models.TextField(blank=True)
+    title = models.CharField(max_length=50, choices=SUBDIVISION_CHOICES, unique=True, verbose_name='Подразделение')
+    description = models.TextField(blank=True, verbose_name='Описание')
 
     class Meta:
         verbose_name = "Подразделение"
@@ -25,16 +25,16 @@ class Subdivision(models.Model):
 
 
 class Person(models.Model):
-    subdivisions = models.ManyToManyField(Subdivision, related_name='members')
-    full_name = models.CharField(max_length=200)
-    role = models.CharField(max_length=150, blank=True)
-    photo = models.ImageField(upload_to='persons_photos/', blank=True, null=True)
-    email = models.EmailField(blank=True)
-    phone = models.CharField(max_length=30, blank=True)
-    bio = models.TextField(blank=True)
-    period = models.CharField(max_length=100, blank=True)
-    sort_order = models.PositiveIntegerField(default=0)
-    is_active = models.BooleanField(default=True)
+    subdivisions = models.ManyToManyField(Subdivision, related_name='members', verbose_name='Подразделения')
+    full_name = models.CharField(max_length=200, verbose_name='ФИО')
+    role = models.CharField(max_length=150, blank=True, verbose_name='Должность')
+    photo = models.ImageField(upload_to='persons_photos/', blank=True, null=True, verbose_name='Фото')
+    email = models.EmailField(blank=True, verbose_name='Электронная почта')
+    phone = models.CharField(max_length=30, blank=True, verbose_name='Телефон')
+    bio = models.TextField(blank=True, verbose_name='О сотруднике')
+    period = models.CharField(max_length=100, blank=True, verbose_name='Стаж работы')
+    sort_order = models.PositiveIntegerField(default=0, verbose_name='Порядковый номер')
+    is_active = models.BooleanField(default=True, verbose_name='Активен')
 
     class Meta:
         ordering = ['sort_order']

@@ -1,37 +1,69 @@
 {% extends 'base.html' %}
 {% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/structure.css'  %}">
+{% endblock %}
+
 {% block content %}
-<link rel="stylesheet" href="{% static 'css/structure.css' %}">
-<nav class="breadcrumbs">
-    <a href="{% url 'structure:structure_home' %}">Структура</a> / {{ subdivision.get_title_display }}
-</nav>
+<div class="container">
+    <nav class="breadcrumbs">
+        <a href="{% url 'structure:structure_home' %}">Структура</a> {{ subdivision.get_title_display }}
+        <a style="float:right;" href="{% url 'structure:structure_home' %}">Вернуться к списку подразделений</a>
+    </nav>
+    <section class="subdivision-header">
+        <h1>{{ subdivision.get_title_display }}</h1>
+        {% if subdivision.description %}
+        <p>{{ subdivision.description }}</p>
+        {% endif %}
+    </section>
+    
 
-<section class="subdivision-header">
-    <h1>{{ subdivision.get_title_display }}</h1>
-    <p>{{ subdivision.description }}</p>
-</section>
-
-<section class="members-grid">
-    {% for person in active_members %}
-    <div class="member-card">
-        <div class="photo-wrapper">
-            {% if person.photo %}
-            <img src="{{ person.photo.url }}" alt="{{ person.full_name }}">
-            {% else %}
-            <div class="no-photo">Нет фото</div>
-            {% endif %}
-        </div>
-        <div class="member-info">
-            <h3>{{ person.full_name }}</h3>
-            <p class="role">{{ person.role }}</p>
-            {% if person.email %}<p class="contact">📧 {{ person.email }}</p>{% endif %}
-            {% if person.phone %}<p class="contact">📞 {{ person.phone }}</p>{% endif %}
-            <p class="bio">{{ person.bio }}</p>
-            <p class="period">{{ person.period }}</p>
-        </div>
+    {% if active_members %}
+    <section class="members-grid">
+        {% for person in active_members %}
+        <div class="member-card">
+    <div class="photo-wrapper">
+        {% if person.photo %}
+        <img src="{{ person.photo.url }}" alt="{{ person.full_name }}">
+        {% else %}
+        <div class="no-photo">Нет фото</div>
+        {% endif %}
     </div>
-    {% endfor %}
-</section>
 
-<link rel="stylesheet" href="{% static 'structure/css/structure.css' %}">
+    <div class="member-info">
+        <h3>{{ person.full_name }}</h3>
+        {% if person.role %}
+        <p class="role">Должность: {{ person.role }}</p>
+        {% endif %}
+
+        <hr>
+
+        {% if person.email %}
+        <p class="contact"><span class="label">📧 Email:</span> <a href="mailto:{{ person.email }}">{{ person.email }}</a></p>
+        {% endif %}
+        {% if person.phone %}
+        <p class="contact"><span class="label">📞 Телефон:</span> <a href="tel:{{ person.phone }}">{{ person.phone }}</a></p>
+        {% endif %}
+        {% if person.period %}
+        <p class="period"><span class="label">Стаж работы:</span> {{ person.period }}</p>
+        {% endif %}
+
+        {% if person.bio %}
+        <hr>
+        <p class="bio"><span class="label">О сотруднике:</span> {{ person.bio }}</p>
+        {% endif %}
+    </div>
+</div>
+        {% endfor %}
+    </section>
+    {% else %}
+    <p style="text-align:center; color:#555;">В этом подразделении пока нет активных участников.</p>
+    {% endif %}
+</div>
+<style>
+    .body{
+        font-family: var(--font-family);
+    }
+</style>
 {% endblock %}

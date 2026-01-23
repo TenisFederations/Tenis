@@ -1,61 +1,118 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Главная - Курская федерация настольного тенниса{% endblock %}
 
 {% block content %}
 <!-- Hero-блок -->
-<section class="text-center py-5">
-    <h1 class="mb-3 fw-bold">Добро пожаловать на официальный сайт Курской федерации настольного тенниса!</h1>
-    <p class="lead">Здесь вы можете ознакомиться с новостями о турнирах, спортсменах и проектах федерации.</p>
+<section class="hero-section d-flex flex-column justify-content-center align-items-center text-center">
+    <div class="hero-overlay"></div>
+    <h1 class="hero-title mb-3 fw-bold">Курская федерация настольного тенниса</h1>
+    <p class="hero-subtitle lead mb-4">Развиваем настольный теннис в Курской области</p>
+   
 </section>
-<!-- Последние новости -->
-<section class="mt-5">
-    <h2 class="section-title">Последние новости</h2>
-    <div class="row g-4">
-        {% for news in latest_news %}
-        <div class="col-md-3">
-            <div class="card-section h-100">
-                {% if news.image %}
-                <img src="{{ news.image.url }}" class="img-fluid rounded mb-3" alt="{{ news.title }}">
+
+<!-- О федерации -->
+<section id="about" class="container py-5">
+    <h2 class="section-title text-center mb-4">О федерации</h2>
+    <p class="text-center mb-4">
+        Курская федерация настольного тенниса была основана в XXXX году. 
+        Мы развиваем настольный теннис на региональном уровне, проводим турниры, обучаем детей и взрослых.
+    </p>
+    <p class="text-center">
+        <strong>Наша миссия:</strong> популяризация настольного тенниса, здоровый образ жизни, поддержка талантливых спортсменов.
+    </p>
+</section>
+
+<!-- Партнеры -->
+<section id="partners" class="py-5 bg-light">
+    <div class="container">
+        <h2 class="section-title text-center mb-5">Наши партнеры</h2>
+        <div class="row g-4 justify-content-center align-items-center">
+            {% for partner in partners %}
+            <div class="col-6 col-md-3 text-center">
+                {% if partner.url %}
+                <a href="{{ partner.url }}" target="_blank">
+                    <img src="{{ partner.logo.url }}" class="img-fluid partner-logo" alt="{{ partner.name }}">
+                </a>
+                {% else %}
+                <img src="{{ partner.logo.url }}" class="img-fluid partner-logo" alt="{{ partner.name }}">
                 {% endif %}
-                <h6 class="fw-semibold">{{ news.title|truncatewords:8 }}</h6>
-                <p class="text-muted small">{{ news.created_at|date:"d M Y" }}</p>
-                <a href="{{ news.get_absolute_url }}" class="btn btn-outline-accent btn-sm mt-2">Подробнее</a>
             </div>
-        </div>
-        {% empty %}
-        <p>Новостей пока нет.</p>
-        {% endfor %}
-    </div>
-</section>
-<!-- Основные разделы -->
-<section class="mt-5">
-    <h2 class="section-title">Разделы</h2>
-    <div class="row g-4">
-        <div class="col-md-4">
-            <div class="card-section h-100">
-                <i class="bi bi-newspaper"></i>
-                <h5>Новости</h5>
-                <p>Читайте свежие новости о турнирах, спортсменах и проектах федерации.</p>
-                <a href="{% url 'news:news_list' %}" class="btn btn-accent mt-2">Перейти</a>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card-section h-100">
-                <i class="bi bi-file-earmark-text"></i>
-                <h5>Документы</h5>
-                <p>Скачивайте официальные документы, положения и регламенты.</p>
-                <a href="{% url 'documents:categories' %}" class="btn btn-accent mt-2">Перейти</a>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card-section h-100">
-                <i class="bi bi-calendar-event"></i>
-                <h5>Календарь</h5>
-                <p>Следите за турнирами, соревнованиями и событиями федерации.</p>
-                <a href="#" class="btn btn-accent mt-2">Перейти</a>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </section>
+
+<!-- Контакты -->
+<section id="contacts" class="container py-5">
+    <h2 class="section-title text-center mb-4">Контакты</h2>
+    <p class="text-center">
+        Адрес: г. Курск, ул. Примерная, д.1<br>
+        Телефон: +7 (XXX) XXX-XX-XX<br>
+        Email: info@kfnt.ru
+    </p>
+    <div class="text-center mt-3">
+        <a href="#" class="btn btn-accent me-2">VK</a>
+        <a href="#" class="btn btn-accent me-2">Telegram</a>
+        <a href="#" class="btn btn-accent">Instagram</a>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+/* --- Hero Section --- */
+.hero-section {
+    position: relative;
+    background: url("{% static 'images/home.jpg' %}") center/cover no-repeat;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    text-shadow: 1px 2px 8px rgba(0,0,0,0.6);
+    border-radius: 16px;
+    margin-bottom: 50px;
+}
+.hero-overlay {
+    position: absolute;
+    top:0; left:0; right:0; bottom:0;
+    background: rgba(0,0,0,0.45);
+    border-radius: 16px;
+}
+.hero-title, .hero-subtitle { position: relative; z-index: 1; }
+
+.btn-accent {
+    background-color: #20C997;
+    color: #fff;
+    border-radius: 0.375rem;
+    transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+}
+.btn-accent:hover {
+    background-color: #17a589;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+/* Section Titles */
+.section-title {
+    border-bottom: 2px solid #20C997;
+    display: inline-block;
+    padding-bottom: 0.25rem;
+    margin-bottom: 2rem;
+    font-weight: 600;
+}
+
+/* Партнеры */
+.partner-logo {
+    max-height: 100px;
+    object-fit: contain;
+    transition: transform 0.3s;
+}
+.partner-logo:hover {
+    transform: scale(1.05);
+}
+</style>
 {% endblock %}

@@ -3,13 +3,15 @@
 
 {% block title %}Проекты{% endblock %}
 
+{% block body_class %}projects-page{% endblock %}
+
 {% block content %}
 <div class="container py-5">
 
-    <!-- Заголовок -->
-    <div class="mb-5 text-center">
+    <!-- Заголовок с градиентом -->
+    <div class="projects-header mb-5">
         <h1 class="fw-bold">Проекты</h1>
-        <p class="text-muted mt-2">
+        <p class="mt-2 text-muted">
             Реализуемые и завершённые проекты, программы и инициативы
         </p>
     </div>
@@ -21,7 +23,7 @@
                     <div class="card h-100 border-0 shadow-sm project-card">
 
                         <!-- Изображение -->
-                        <div class="ratio ratio-16x9">
+                        <div class="ratio ratio-16x9 project-main-image">
                             <img src="{{ project.main_image.url }}"
                                  class="card-img-top object-fit-cover"
                                  alt="{{ project.title }}">
@@ -31,7 +33,7 @@
 
                             <!-- Категория -->
                             <div class="mb-2">
-                                <span class="badge bg-light text-dark border">
+                                <span class="badge">
                                     {{ project.category.title }}
                                 </span>
                             </div>
@@ -58,10 +60,10 @@
                                 {{ project.short_description|truncatechars:120 }}
                             </p>
 
-                            <!-- Кнопка -->
+                            <!-- Кнопка Подробнее -->
                             <div class="mt-auto">
                                 <a href="{{ project.get_absolute_url }}"
-                                   class="btn btn-outline-dark w-100">
+                                   class="btn w-100">
                                     Подробнее
                                 </a>
                             </div>
@@ -78,4 +80,10 @@
     {% endif %}
 
 </div>
+
+{% block extra_css %}
+<!-- Подключаем стили проектов -->
+<link rel="stylesheet" href="{% static 'css/project.css' %}">
+{% endblock %}
+
 {% endblock %}

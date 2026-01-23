@@ -2,29 +2,86 @@
 
 {% block content %}
 
-<section class="mb-5">
+<section class="mb-5 text-center">
   <h1 class="section-title">Документы</h1>
-  <p class="text-muted col-lg-8 mt-2">
+  <p class="text-muted col-lg-8 mx-auto mt-2">
     Официальные документы Курской федерации настольного тенниса
   </p>
 </section>
 
-<section>
-  <div class="row g-4">
-    {% for cat in categories %}
-    <div class="col-md-6 col-lg-4">
-      <a href="{% url 'documents:category' cat.slug %}" class="text-decoration-none">
-        <div class="card-section h-100">
-          <i class="bi bi-folder"></i>
-          <h5>{{ cat.name }}</h5>
-          <p class="small text-muted mb-0">
-            Перейти к документам
-          </p>
-        </div>
-      </a>
+<section class="mb-5">
+  <div class="container-xl">
+    <div class="row g-5 justify-content-center">
+      {% for cat in categories %}
+      <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
+        <a href="{% url 'documents:category' cat.slug %}" class="text-decoration-none">
+          <div class="card-premium h-100">
+            <div class="card-bg"></div>
+            <div class="card-content">
+              <i class="bi bi-folder"></i>
+              <h5>{{ cat.name }}</h5>
+              <p class="small mb-0">Перейти к документам</p>
+            </div>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
     </div>
-    {% endfor %}
   </div>
 </section>
+
+<style>
+.section-title {
+    font-size: 2rem;
+    font-weight: 600;
+    border-bottom: 3px solid var(--accent-color);
+    display: inline-block;
+    padding-bottom: 0.25rem;
+    color: var(--text-color);
+}
+
+/* Карточки категорий с градиентом */
+.card-premium {
+    position: relative;
+    border-radius: 1.2rem;
+    overflow: hidden;
+    height: 220px;
+    cursor: pointer;
+    transition: transform 0.4s, box-shadow 0.4s, background 0.4s;
+    background: linear-gradient(145deg, var(--card-bg), #f1f3f5);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+.card-premium:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 35px rgba(0,0,0,0.15);
+    background: linear-gradient(145deg, #e9f5f1, var(--card-bg));
+}
+.card-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.card-content i {
+    font-size: 3rem;
+    margin-bottom: 0.75rem;
+    color: var(--accent-color);
+    transition: transform 0.3s, color 0.3s;
+}
+.card-premium:hover i {
+    transform: scale(1.2);
+    color: var(--accent-hover);
+}
+.card-content h5 {
+    font-weight: 600;
+    color: var(--text-color);
+}
+.card-content p {
+    color: var(--accent-color);
+    font-weight: 500;
+}
+</style>
 
 {% endblock %}
